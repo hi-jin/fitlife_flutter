@@ -2,10 +2,12 @@ import 'package:easy_autocomplete/easy_autocomplete.dart';
 import 'package:fitlife/classes/daily_workout.dart';
 import 'package:fitlife/classes/user.dart';
 import 'package:fitlife/classes/workout.dart';
+import 'package:fitlife/components/icon_text_button.dart';
 import 'package:fitlife/components/timer_widget.dart';
 import 'package:fitlife/components/workout_view.dart';
 import 'package:fitlife/data/constatns.dart';
 import 'package:fitlife/screens/daily_workout_screen.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -21,8 +23,8 @@ class WorkoutScreen extends StatefulWidget {
 }
 
 class _WorkoutScreenState extends State<WorkoutScreen> {
-  final Set<String> _strWorkoutList =
-      User.currentUser.getKindsOfWorkoutList(); // User에 저장된 정보, 지금까지 추가한 운동종목들을 불러온다.
+  final Set<String> _strWorkoutList = User.currentUser
+      .getKindsOfWorkoutList(); // User에 저장된 정보, 지금까지 추가한 운동종목들을 불러온다.
   TextEditingController? _textController; // 운동종목 입력 TextField에 연결된 controller
   TextEditingController? _weightController;
   bool _isTextFieldClicked = false;
@@ -77,9 +79,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                 }
                 Navigator.pop(context, value);
               },
-              decoration: InputDecoration(
-                hintText: "하체 Day, 가슴 Day, ..."
-              ),
+              decoration: InputDecoration(hintText: "하체 Day, 가슴 Day, ..."),
             ),
           );
         },
@@ -180,40 +180,80 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
             title: Text(
               '${User.currentUser.currentWorkout!.name} 몇 회 하셨나요?',
             ),
-            content: TextField(
-              controller: _numController,
-              autofocus: true,
-              keyboardType: TextInputType.number,
-              onSubmitted: (value) {
-                if (value == "") {
-                  value = "0";
-                  _numController.text = "0";
-                }
-                int? reps = int.tryParse(value);
-                if (reps == null) {
-                  showDialog(
-                      context: context,
-                      builder: (context) {
-                        return AlertDialog(
-                          title: Text('잠시만요!'),
-                          content: Text('숫자만 입력해주세요!'),
-                          actions: [
-                            TextButton(
-                              onPressed: () {
-                                setState(() {
-                                  _numController.text = "";
-                                });
-                                Navigator.pop(context);
-                              },
-                              child: Text('네!'),
-                            ),
-                          ],
-                        );
-                      });
-                } else {
-                  Navigator.pop(context, reps);
-                }
-              },
+            content: Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: _numController,
+                    autofocus: true,
+                    keyboardType: TextInputType.number,
+                    onSubmitted: (value) {
+                      if (value == "") {
+                        value = "0";
+                        _numController.text = "0";
+                      }
+                      int? reps = int.tryParse(value);
+                      if (reps == null) {
+                        showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: Text('잠시만요!'),
+                                content: Text('숫자만 입력해주세요!'),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        _numController.text = "";
+                                      });
+                                      Navigator.pop(context);
+                                    },
+                                    child: Text('네!'),
+                                  ),
+                                ],
+                              );
+                            });
+                      } else {
+                        Navigator.pop(context, reps);
+                      }
+                    },
+                  ),
+                ),
+                GestureDetector(
+                    onTap: () {
+                      int? reps;
+                      FocusManager.instance.primaryFocus?.unfocus();
+                      if (_numController.text == "") {
+                        reps = 0;
+                      } else {
+                        reps = int.tryParse(_numController.text);
+                        if (reps == null) {
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: Text('잠시만요!'),
+                                  content: Text('숫자만 입력해주세요!'),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          _numController.text = "";
+                                        });
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text('네!'),
+                                    ),
+                                  ],
+                                );
+                              });
+                        } else {
+                          Navigator.pop(context, reps);
+                        }
+                      }
+                    },
+                    child: Icon(CupertinoIcons.arrow_turn_down_left)),
+              ],
             ),
           );
         });
@@ -236,24 +276,27 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        title: GestureDetector(
-          onTap: () {
-            Navigator.popUntil(context, (route) => route.isFirst);
-          },
-          child: const Hero(
-            tag: 'title',
-            child: Text(
-              '헬생',
-              style: kTitleTextStyle,
+    return GestureDetector(
+      onTap: () {
+        FocusManager.instance.primaryFocus?.unfocus();
+      },
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        appBar: AppBar(
+          title: GestureDetector(
+            onTap: () {
+              Navigator.popUntil(context, (route) => route.isFirst);
+            },
+            child: const Hero(
+              tag: 'title',
+              child: Text(
+                '헬생',
+                style: kTitleTextStyle,
+              ),
             ),
           ),
         ),
-      ),
-      body: SafeArea(
-        child: Column(
+        body: Column(
           children: [
             Row(
               children: [
@@ -282,63 +325,61 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         Container(
-                          child: Focus(
-                            onFocusChange: (focus) => _isTextFieldClicked = focus,
-                            child: EasyAutocomplete(
-                              controller: _textController,
-                              decoration: InputDecoration(
-                                hintText: "벤치프레스, ...",
-                                border: const OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.white),
-                                ),
-                                focusedBorder: const OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.white),
-                                ),
-                                labelText: '운동 종목 입력',
-                                labelStyle:
-                                    kDefaultTextStyle.copyWith(fontSize: 20.0),
+                          child: EasyAutocomplete(
+                            controller: _textController,
+                            decoration: InputDecoration(
+                              hintText: "벤치프레스, ...",
+                              border: const OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.white),
                               ),
-                              suggestions: _strWorkoutList.toList(),
-                              onSubmitted: (value) {
-                                if (value == "") return;
-                                if (!_strWorkoutList.contains(value)) {
-                                  showDialog(
-                                      barrierDismissible: false,
-                                      context: context,
-                                      builder: (context) {
-                                        return AlertDialog(
-                                          title: Text("잠시만요!"),
-                                          content:
-                                              Text('처음 보는 운동 종목이에요!\n추가하시겠어요?'),
-                                          actions: [
-                                            TextButton(
-                                              onPressed: () {
-                                                setState(() {
-                                                  User.currentUser.kindsOfWorkout.add(value);
-                                                });
-                                                Navigator.pop(context);
-                                              },
-                                              child: Text('네!',
-                                                  style: TextStyle(
-                                                      color: Colors.white)),
-                                            ),
-                                            TextButton(
-                                              onPressed: () {
-                                                setState(() {
-                                                  _textController!.text = "";
-                                                });
-                                                Navigator.pop(context);
-                                              },
-                                              child: Text('아니요!',
-                                                  style: TextStyle(
-                                                      color: Colors.white)),
-                                            ),
-                                          ],
-                                        );
-                                      });
-                                }
-                              },
+                              focusedBorder: const OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.white),
+                              ),
+                              labelText: '운동 종목 입력',
+                              labelStyle:
+                                  kDefaultTextStyle.copyWith(fontSize: 20.0),
                             ),
+                            suggestions: _strWorkoutList.toList(),
+                            onSubmitted: (value) {
+                              if (value == "") return;
+                              if (!_strWorkoutList.contains(value)) {
+                                showDialog(
+                                    barrierDismissible: false,
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                        title: Text("잠시만요!"),
+                                        content:
+                                            Text('처음 보는 운동 종목이에요!\n추가하시겠어요?'),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () {
+                                              setState(() {
+                                                User.currentUser.kindsOfWorkout
+                                                    .add(value);
+                                              });
+                                              Navigator.pop(context);
+                                            },
+                                            child: Text('네!',
+                                                style: TextStyle(
+                                                    color: Colors.white)),
+                                          ),
+                                          TextButton(
+                                            onPressed: () {
+                                              setState(() {
+                                                _textController!.text = "";
+                                              });
+                                              Navigator.pop(context);
+                                            },
+                                            child: Text('아니요!',
+                                                style: TextStyle(
+                                                    color: Colors.white)),
+                                          ),
+                                        ],
+                                      );
+                                    });
+                              }
+                            },
                           ),
                         ), // 운동 종목 입력 TextField
                         SizedBox(height: 20.0),
@@ -373,11 +414,10 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                           ),
                           child: TextButton(
                             onPressed: () {
-                              _isTextFieldClicked
-                                  ? ""
-                                  : User.currentUser.isSetStarted
-                                      ? _stopSet()
-                                      : _startSet();
+                              FocusManager.instance.primaryFocus?.unfocus();
+                              User.currentUser.isSetStarted
+                                  ? _stopSet()
+                                  : _startSet();
                             },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -419,10 +459,10 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => DailyWorkoutScreen(
-                                  dailyWorkout:
-                                      User.currentUser.myWorkoutRecord.isNotEmpty
-                                          ? User.currentUser.myWorkoutRecord.last
-                                          : DailyWorkout())));
+                                  dailyWorkout: User.currentUser.myWorkoutRecord
+                                          .isNotEmpty
+                                      ? User.currentUser.myWorkoutRecord.last
+                                      : DailyWorkout())));
                     },
                     child: Container(
                       padding: EdgeInsets.all(5.0),
