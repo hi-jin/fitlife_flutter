@@ -35,152 +35,154 @@ class _WorkoutReadyScreenState extends State<WorkoutReadyScreen> {
               )),
         ),
       ),
-      body: Column(
-        children: [
-          Hero(
-            tag: 'quote',
-            child: InfoCard(
-              iconData: FontAwesomeIcons.lightbulb,
-              title: "가장 어려운 건 시작하는 것입니다. 당신은 방금 그걸 해냈습니다.",
-            ),
-          ),
-          const Divider(
-            color: Colors.white,
-            thickness: 1.0,
-            indent: 10.0,
-            endIndent: 10.0,
-          ),
-          Expanded(
-            child: Container(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        // 알람 종류 변경
-                        setState(() {
-                          if (currentTimerIndex == 0) {
-                            currentTimerIndex = alarmType.length - 1;
-                          } else {
-                            currentTimerIndex -= 1;
-                          }
-                        });
-                      },
-                      child: const Icon(FontAwesomeIcons.arrowLeft),
-                    ),
-                    Expanded(
-                      child: Column(
-                        children: [
-                          Text(
-                            alarmType[currentTimerIndex]["title"],
-                            style: kDefaultTextStyle,
-                          ),
-                          const SizedBox(height: 10.0),
-                          Icon(
-                            alarmType[currentTimerIndex]["iconData"],
-                            size: MediaQuery.of(context).size.width * 0.3,
-                          ),
-                        ],
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        // 알람 종류 변경
-                        setState(() {
-                          if (currentTimerIndex >= alarmType.length - 1) {
-                            currentTimerIndex = 0;
-                          } else {
-                            currentTimerIndex += 1;
-                          }
-                        });
-                      },
-                      child: const Icon(FontAwesomeIcons.arrowRight),
-                    ),
-                  ],
-                ),
+      body: SafeArea(
+        child: Column(
+          children: [
+            Hero(
+              tag: 'quote',
+              child: InfoCard(
+                iconData: FontAwesomeIcons.lightbulb,
+                title: "가장 어려운 건 시작하는 것입니다. 당신은 방금 그걸 해냈습니다.",
               ),
             ),
-          ),
-          const Hero(
-            tag: 'divider',
-            child: Divider(
+            const Divider(
               color: Colors.white,
               thickness: 1.0,
               indent: 10.0,
               endIndent: 10.0,
             ),
-          ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Text(
-                alarmType[currentTimerIndex]["desc"], // 선택한 알람에 대한 설명
-                style: kDefaultTextStyle,
-              ),
-            ),
-          ),
-          const Divider(
-            color: Colors.white,
-            thickness: 1.0,
-            indent: 10.0,
-            endIndent: 10.0,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0.0, 0.0, 5.0, 5.0),
-                child: TextButton(
-                  child: Container(
-                    padding: const EdgeInsets.all(5.0),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.white),
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: const [
-                        Icon(
-                          FontAwesomeIcons.running,
-                          color: Colors.white,
-                        ),
-                        Text(
-                          " 운동시작",
-                          style: kDefaultTextStyle,
-                        ),
-                      ],
-                    ),
-                  ),
-                  onPressed: () {
-                    if (alarmType[currentTimerIndex]["name"] == "default") {
-                      showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              title: Text("잠시만요!"),
-                              content: Text(
-                                "아직 개발중인 기능입니다 ㅠㅠ\n빠른 시일 내에 추가 예정입니다.",
-                              ),
-                            );
+            Expanded(
+              child: Container(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          // 알람 종류 변경
+                          setState(() {
+                            if (currentTimerIndex == 0) {
+                              currentTimerIndex = alarmType.length - 1;
+                            } else {
+                              currentTimerIndex -= 1;
+                            }
                           });
-                    } else {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => WorkoutScreen(
-                            alarmType: alarmType[currentTimerIndex]
-                                ["name"], // 선택한 알람의 종류를 인자로 넘기며 다음 페이지 호출
-                          ),
+                        },
+                        child: const Icon(FontAwesomeIcons.arrowLeft),
+                      ),
+                      Expanded(
+                        child: Column(
+                          children: [
+                            Text(
+                              alarmType[currentTimerIndex]["title"],
+                              style: kDefaultTextStyle,
+                            ),
+                            const SizedBox(height: 10.0),
+                            Icon(
+                              alarmType[currentTimerIndex]["iconData"],
+                              size: MediaQuery.of(context).size.width * 0.3,
+                            ),
+                          ],
                         ),
-                      );
-                    }
-                  },
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          // 알람 종류 변경
+                          setState(() {
+                            if (currentTimerIndex >= alarmType.length - 1) {
+                              currentTimerIndex = 0;
+                            } else {
+                              currentTimerIndex += 1;
+                            }
+                          });
+                        },
+                        child: const Icon(FontAwesomeIcons.arrowRight),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ],
-          ),
-        ],
+            ),
+            const Hero(
+              tag: 'divider',
+              child: Divider(
+                color: Colors.white,
+                thickness: 1.0,
+                indent: 10.0,
+                endIndent: 10.0,
+              ),
+            ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Text(
+                  alarmType[currentTimerIndex]["desc"], // 선택한 알람에 대한 설명
+                  style: kDefaultTextStyle,
+                ),
+              ),
+            ),
+            const Divider(
+              color: Colors.white,
+              thickness: 1.0,
+              indent: 10.0,
+              endIndent: 10.0,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0.0, 0.0, 5.0, 5.0),
+                  child: TextButton(
+                    child: Container(
+                      padding: const EdgeInsets.all(5.0),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.white),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: const [
+                          Icon(
+                            FontAwesomeIcons.running,
+                            color: Colors.white,
+                          ),
+                          Text(
+                            " 운동시작",
+                            style: kDefaultTextStyle,
+                          ),
+                        ],
+                      ),
+                    ),
+                    onPressed: () {
+                      if (alarmType[currentTimerIndex]["name"] == "default") {
+                        showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: Text("잠시만요!"),
+                                content: Text(
+                                  "아직 개발중인 기능입니다 ㅠㅠ\n빠른 시일 내에 추가 예정입니다.",
+                                ),
+                              );
+                            });
+                      } else {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => WorkoutScreen(
+                              alarmType: alarmType[currentTimerIndex]
+                                  ["name"], // 선택한 알람의 종류를 인자로 넘기며 다음 페이지 호출
+                            ),
+                          ),
+                        );
+                      }
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

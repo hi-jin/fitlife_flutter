@@ -135,39 +135,41 @@ class _DailyWorkoutScreenState extends State<DailyWorkoutScreen> {
           ),
         ),
       ),
-      body: Column(
-        children: [
-          Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  widget.dailyWorkout.title,
-                  style: kTitleTextStyle,
-                ),
-                Text(
-                  widget.dailyWorkout.title == "" ? "" : _getTimeDifference(DateTime.now()),
-                  style: kDefaultTextStyle,
-                ),
-              ],
-            ),
-          ),
-          Expanded(
-            child: Padding(
+      body: SafeArea(
+        child: Column(
+          children: [
+            Padding(
               padding:
-                  const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-              child: ListView(
-                children: _getWorkoutCardList(
-                    widget.dailyWorkout.dailyWorkoutList, simpleView),
+                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    widget.dailyWorkout.title,
+                    style: kTitleTextStyle,
+                  ),
+                  Text(
+                    widget.dailyWorkout.title == "" ? "" : _getTimeDifference(DateTime.now()),
+                    style: kDefaultTextStyle,
+                  ),
+                ],
               ),
             ),
-          ),
-          SizedBox(
-            height: 80.0,
-          )
-        ],
+            Expanded(
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+                child: ListView(
+                  children: _getWorkoutCardList(
+                      widget.dailyWorkout.dailyWorkoutList, simpleView),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 80.0,
+            )
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.deepPurpleAccent,

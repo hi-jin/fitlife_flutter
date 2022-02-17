@@ -252,213 +252,215 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
           ),
         ),
       ),
-      body: Column(
-        children: [
-          Row(
-            children: [
-              Expanded(
-                child: Column(
-                  children: [
-                    Container(
-                      margin: EdgeInsets.all(15.0),
-                      width: double.infinity,
-                      color: ThemeData.dark().cardColor,
-                      child: Column(
-                        children: [
-                          timer0,
-                          timer1,
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(15.0),
+      body: SafeArea(
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Expanded(
                   child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       Container(
-                        child: Focus(
-                          onFocusChange: (focus) => _isTextFieldClicked = focus,
-                          child: EasyAutocomplete(
-                            controller: _textController,
-                            decoration: InputDecoration(
-                              hintText: "벤치프레스, ...",
-                              border: const OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.white),
-                              ),
-                              focusedBorder: const OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.white),
-                              ),
-                              labelText: '운동 종목 입력',
-                              labelStyle:
-                                  kDefaultTextStyle.copyWith(fontSize: 20.0),
-                            ),
-                            suggestions: _strWorkoutList.toList(),
-                            onSubmitted: (value) {
-                              if (value == "") return;
-                              if (!_strWorkoutList.contains(value)) {
-                                showDialog(
-                                    barrierDismissible: false,
-                                    context: context,
-                                    builder: (context) {
-                                      return AlertDialog(
-                                        title: Text("잠시만요!"),
-                                        content:
-                                            Text('처음 보는 운동 종목이에요!\n추가하시겠어요?'),
-                                        actions: [
-                                          TextButton(
-                                            onPressed: () {
-                                              setState(() {
-                                                User.currentUser.kindsOfWorkout.add(value);
-                                              });
-                                              Navigator.pop(context);
-                                            },
-                                            child: Text('네!',
-                                                style: TextStyle(
-                                                    color: Colors.white)),
-                                          ),
-                                          TextButton(
-                                            onPressed: () {
-                                              setState(() {
-                                                _textController!.text = "";
-                                              });
-                                              Navigator.pop(context);
-                                            },
-                                            child: Text('아니요!',
-                                                style: TextStyle(
-                                                    color: Colors.white)),
-                                          ),
-                                        ],
-                                      );
-                                    });
-                              }
-                            },
-                          ),
+                        margin: EdgeInsets.all(15.0),
+                        width: double.infinity,
+                        color: ThemeData.dark().cardColor,
+                        child: Column(
+                          children: [
+                            timer0,
+                            timer1,
+                          ],
                         ),
-                      ), // 운동 종목 입력 TextField
-                      SizedBox(height: 20.0),
-                      Container(
-                        child: Focus(
-                          child: TextField(
-                            keyboardType: TextInputType.number,
-                            controller: _weightController,
-                            decoration: InputDecoration(
-                              hintText: "생략 가능해요!",
-                              border: const OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.white),
-                              ),
-                              focusedBorder: const OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.white),
-                              ),
-                              labelText: '무게 입력 (kg)',
-                              labelStyle:
-                                  kDefaultTextStyle.copyWith(fontSize: 20.0),
-                            ),
-                            onSubmitted: (value) {
-                              if (value == "") return;
-                            },
-                          ),
-                        ),
-                      ), // 운동 종목 입력 TextField
-                      SizedBox(height: 20.0),
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Colors.deepPurpleAccent,
-                          border: Border.all(color: Colors.grey),
-                        ),
-                        child: TextButton(
-                          onPressed: () {
-                            _isTextFieldClicked
-                                ? ""
-                                : User.currentUser.isSetStarted
-                                    ? _stopSet()
-                                    : _startSet();
-                          },
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Icon(
-                                User.currentUser.isSetStarted
-                                    ? FontAwesomeIcons.stop
-                                    : FontAwesomeIcons.play,
-                                color: Colors.white,
-                              ),
-                              Text(
-                                User.currentUser.isSetStarted
-                                    ? '세트 종료'
-                                    : '세트 시작',
-                                style: kDefaultTextStyle,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ) // 세트 시작 버튼
+                      ),
                     ],
                   ),
                 ),
-              ),
-            ],
-          ),
-          Expanded(
-            child: WorkoutListView(
-              workoutList: User.currentUser.dailyWorkout.dailyWorkoutList,
-              isLive: true,
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Container(
+                          child: Focus(
+                            onFocusChange: (focus) => _isTextFieldClicked = focus,
+                            child: EasyAutocomplete(
+                              controller: _textController,
+                              decoration: InputDecoration(
+                                hintText: "벤치프레스, ...",
+                                border: const OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.white),
+                                ),
+                                focusedBorder: const OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.white),
+                                ),
+                                labelText: '운동 종목 입력',
+                                labelStyle:
+                                    kDefaultTextStyle.copyWith(fontSize: 20.0),
+                              ),
+                              suggestions: _strWorkoutList.toList(),
+                              onSubmitted: (value) {
+                                if (value == "") return;
+                                if (!_strWorkoutList.contains(value)) {
+                                  showDialog(
+                                      barrierDismissible: false,
+                                      context: context,
+                                      builder: (context) {
+                                        return AlertDialog(
+                                          title: Text("잠시만요!"),
+                                          content:
+                                              Text('처음 보는 운동 종목이에요!\n추가하시겠어요?'),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () {
+                                                setState(() {
+                                                  User.currentUser.kindsOfWorkout.add(value);
+                                                });
+                                                Navigator.pop(context);
+                                              },
+                                              child: Text('네!',
+                                                  style: TextStyle(
+                                                      color: Colors.white)),
+                                            ),
+                                            TextButton(
+                                              onPressed: () {
+                                                setState(() {
+                                                  _textController!.text = "";
+                                                });
+                                                Navigator.pop(context);
+                                              },
+                                              child: Text('아니요!',
+                                                  style: TextStyle(
+                                                      color: Colors.white)),
+                                            ),
+                                          ],
+                                        );
+                                      });
+                                }
+                              },
+                            ),
+                          ),
+                        ), // 운동 종목 입력 TextField
+                        SizedBox(height: 20.0),
+                        Container(
+                          child: Focus(
+                            child: TextField(
+                              keyboardType: TextInputType.number,
+                              controller: _weightController,
+                              decoration: InputDecoration(
+                                hintText: "생략 가능해요!",
+                                border: const OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.white),
+                                ),
+                                focusedBorder: const OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.white),
+                                ),
+                                labelText: '무게 입력 (kg)',
+                                labelStyle:
+                                    kDefaultTextStyle.copyWith(fontSize: 20.0),
+                              ),
+                              onSubmitted: (value) {
+                                if (value == "") return;
+                              },
+                            ),
+                          ),
+                        ), // 운동 종목 입력 TextField
+                        SizedBox(height: 20.0),
+                        Container(
+                          decoration: BoxDecoration(
+                            color: Colors.deepPurpleAccent,
+                            border: Border.all(color: Colors.grey),
+                          ),
+                          child: TextButton(
+                            onPressed: () {
+                              _isTextFieldClicked
+                                  ? ""
+                                  : User.currentUser.isSetStarted
+                                      ? _stopSet()
+                                      : _startSet();
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Icon(
+                                  User.currentUser.isSetStarted
+                                      ? FontAwesomeIcons.stop
+                                      : FontAwesomeIcons.play,
+                                  color: Colors.white,
+                                ),
+                                Text(
+                                  User.currentUser.isSetStarted
+                                      ? '세트 종료'
+                                      : '세트 시작',
+                                  style: kDefaultTextStyle,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ) // 세트 시작 버튼
+                      ],
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ),
-          Row(
-            children: [
-              Expanded(
-                child: TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => DailyWorkoutScreen(
-                                dailyWorkout:
-                                    User.currentUser.myWorkoutRecord.isNotEmpty
-                                        ? User.currentUser.myWorkoutRecord.last
-                                        : DailyWorkout())));
-                  },
-                  child: Container(
-                    padding: EdgeInsets.all(5.0),
-                    decoration: BoxDecoration(
-                        color: ThemeData.dark().cardColor,
-                        border: Border.all(color: Colors.white)),
-                    child: Center(
-                      child: Text(
-                        '최근 운동 기록',
-                        style: kDefaultTextStyle,
-                      ),
-                    ),
-                  ),
-                ),
+            Expanded(
+              child: WorkoutListView(
+                workoutList: User.currentUser.dailyWorkout.dailyWorkoutList,
+                isLive: true,
               ),
-              Expanded(
-                child: TextButton(
-                  onPressed: () {
-                    User.currentUser.isStarted ? _stop() : _start();
-                  },
-                  child: Container(
-                    padding: EdgeInsets.all(5.0),
-                    decoration: BoxDecoration(
-                        color: Colors.redAccent,
-                        border: Border.all(color: Colors.white)),
-                    child: Center(
-                      child: Text(
-                        User.currentUser.isStarted ? '운동 종료 및 기록' : '운동 시작',
-                        style: kDefaultTextStyle,
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => DailyWorkoutScreen(
+                                  dailyWorkout:
+                                      User.currentUser.myWorkoutRecord.isNotEmpty
+                                          ? User.currentUser.myWorkoutRecord.last
+                                          : DailyWorkout())));
+                    },
+                    child: Container(
+                      padding: EdgeInsets.all(5.0),
+                      decoration: BoxDecoration(
+                          color: ThemeData.dark().cardColor,
+                          border: Border.all(color: Colors.white)),
+                      child: Center(
+                        child: Text(
+                          '최근 운동 기록',
+                          style: kDefaultTextStyle,
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ), // 운동 시작 버튼
-            ],
-          ), // 하단
-        ],
+                Expanded(
+                  child: TextButton(
+                    onPressed: () {
+                      User.currentUser.isStarted ? _stop() : _start();
+                    },
+                    child: Container(
+                      padding: EdgeInsets.all(5.0),
+                      decoration: BoxDecoration(
+                          color: Colors.redAccent,
+                          border: Border.all(color: Colors.white)),
+                      child: Center(
+                        child: Text(
+                          User.currentUser.isStarted ? '운동 종료 및 기록' : '운동 시작',
+                          style: kDefaultTextStyle,
+                        ),
+                      ),
+                    ),
+                  ),
+                ), // 운동 시작 버튼
+              ],
+            ), // 하단
+          ],
+        ),
       ),
     );
   }

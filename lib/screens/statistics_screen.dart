@@ -89,180 +89,182 @@ class _StatisticsScreenState extends State<StatisticsScreen>
             ),
           ),
         ),
-        body: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10.0),
-          child: TabBarView(
-            controller: _tabController,
-            children: [
-              Column(
-                children: [
-                  Expanded(
-                    child: ListView.builder(
-                      itemBuilder: (BuildContext context, int index) {
-                        List<DailyWorkout> list = List<DailyWorkout>.from(
-                            User.currentUser.myWorkoutRecord.reversed);
-                        return Dismissible(
-                          confirmDismiss: (direction) async {
-                            switch (direction) {
-                              case DismissDirection.startToEnd:
-                                bool delete = await showDialog(
-                                  barrierDismissible: false,
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return AlertDialog(
-                                      title: Text('잠시만요!'),
-                                      content: Text('정말 삭제하시겠어요?'),
-                                      actions: [
-                                        TextButton(
-                                          onPressed: () {
-                                            Navigator.pop(context, true);
-                                          },
-                                          child: Text(
-                                            "네!",
-                                            style:
-                                                TextStyle(color: Colors.white),
-                                          ),
-                                        ),
-                                        TextButton(
-                                          onPressed: () {
-                                            Navigator.pop(context, false);
-                                          },
-                                          child: Text(
-                                            "아니요!",
-                                            style:
-                                                TextStyle(color: Colors.white),
-                                          ),
-                                        ),
-                                      ],
-                                    );
-                                  },
-                                );
-                                return delete;
-                              case DismissDirection.endToStart:
-                                String? newTitle = await showDialog(
+        body: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10.0),
+            child: TabBarView(
+              controller: _tabController,
+              children: [
+                Column(
+                  children: [
+                    Expanded(
+                      child: ListView.builder(
+                        itemBuilder: (BuildContext context, int index) {
+                          List<DailyWorkout> list = List<DailyWorkout>.from(
+                              User.currentUser.myWorkoutRecord.reversed);
+                          return Dismissible(
+                            confirmDismiss: (direction) async {
+                              switch (direction) {
+                                case DismissDirection.startToEnd:
+                                  bool delete = await showDialog(
+                                    barrierDismissible: false,
                                     context: context,
-                                    builder: (context) {
+                                    builder: (BuildContext context) {
                                       return AlertDialog(
-                                        title: Text("제목을 수정할 수 있습니다."),
-                                        content: TextField(
-                                          autofocus: true,
-                                          onSubmitted: (value) {
-                                            if (value == "") {
-                                              showDialog(
-                                                  context: context,
-                                                  builder: (context) {
-                                                    return AlertDialog(
-                                                      title: Text('잠시만요!'),
-                                                      content: Text(
-                                                          '제목은 비워둘 수 없습니다!'),
-                                                    );
-                                                  });
-                                            } else {
-                                              Navigator.pop(context, value);
-                                            }
-                                          },
-                                        ),
+                                        title: Text('잠시만요!'),
+                                        content: Text('정말 삭제하시겠어요?'),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.pop(context, true);
+                                            },
+                                            child: Text(
+                                              "네!",
+                                              style:
+                                                  TextStyle(color: Colors.white),
+                                            ),
+                                          ),
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.pop(context, false);
+                                            },
+                                            child: Text(
+                                              "아니요!",
+                                              style:
+                                                  TextStyle(color: Colors.white),
+                                            ),
+                                          ),
+                                        ],
                                       );
+                                    },
+                                  );
+                                  return delete;
+                                case DismissDirection.endToStart:
+                                  String? newTitle = await showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return AlertDialog(
+                                          title: Text("제목을 수정할 수 있습니다."),
+                                          content: TextField(
+                                            autofocus: true,
+                                            onSubmitted: (value) {
+                                              if (value == "") {
+                                                showDialog(
+                                                    context: context,
+                                                    builder: (context) {
+                                                      return AlertDialog(
+                                                        title: Text('잠시만요!'),
+                                                        content: Text(
+                                                            '제목은 비워둘 수 없습니다!'),
+                                                      );
+                                                    });
+                                              } else {
+                                                Navigator.pop(context, value);
+                                              }
+                                            },
+                                          ),
+                                        );
+                                      });
+                                  if (newTitle != null) {
+                                    setState(() {
+                                      User.currentUser.myWorkoutRecord[list.length-1 - index].title = newTitle;
+                                      User.isChanged = true;
                                     });
-                                if (newTitle != null) {
-                                  setState(() {
-                                    User.currentUser.myWorkoutRecord[list.length-1 - index].title = newTitle;
-                                    User.isChanged = true;
-                                  });
-                                }
-                                return false;
-                              default:
-                                return false;
-                            }
-                          },
-                          background: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Container(
-                              height: double.infinity,
-                              color: Colors.redAccent,
-                              child: Row(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 20.0),
-                                    child: Container(
-                                      child: Icon(FontAwesomeIcons.trash),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          secondaryBackground: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Container(
-                              height: double.infinity,
-                              color: Colors.grey,
-                              child: Row(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 20.0),
-                                    child: Container(
-                                      child: Icon(FontAwesomeIcons.pencilAlt),
-                                    ),
-                                  ),
-                                ],
-                                mainAxisAlignment: MainAxisAlignment.end,
-                              ),
-                            ),
-                          ),
-                          onDismissed: (direction) {
-                            if (direction == DismissDirection.startToEnd) {
-                              setState(() {
-                                User.currentUser.myWorkoutRecord.removeAt(list.length-1 - index);
-                                User.isChanged = true;
-                              });
-                            }
-                          },
-                          key: UniqueKey(),
-                          child: GestureDetector(
-                            onTap: () {
-                              Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) {
-                                return DailyWorkoutScreen(
-                                    dailyWorkout: list[index]);
-                              }));
+                                  }
+                                  return false;
+                                default:
+                                  return false;
+                              }
                             },
-                            child: Card(
-                              child: ListTile(
-                                leading: Text(
-                                  (list.length - index).toString(),
-                                  style: kTitleTextStyle,
-                                ),
-                                title: Text(
-                                  list[index].title,
-                                  style: kTitleTextStyle,
-                                ),
-                                subtitle: Text(
-                                  "${list[index].date.year}년 ${list[index].date.month}월 ${list[index].date.day}일"
-                                      .toString(),
-                                  style: TextStyle(fontSize: 18.0),
+                            background: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Container(
+                                height: double.infinity,
+                                color: Colors.redAccent,
+                                child: Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 20.0),
+                                      child: Container(
+                                        child: Icon(FontAwesomeIcons.trash),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),
-                          ),
-                        );
-                      },
-                      itemCount: User.currentUser.myWorkoutRecord.length,
+                            secondaryBackground: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Container(
+                                height: double.infinity,
+                                color: Colors.grey,
+                                child: Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 20.0),
+                                      child: Container(
+                                        child: Icon(FontAwesomeIcons.pencilAlt),
+                                      ),
+                                    ),
+                                  ],
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                ),
+                              ),
+                            ),
+                            onDismissed: (direction) {
+                              if (direction == DismissDirection.startToEnd) {
+                                setState(() {
+                                  User.currentUser.myWorkoutRecord.removeAt(list.length-1 - index);
+                                  User.isChanged = true;
+                                });
+                              }
+                            },
+                            key: UniqueKey(),
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.push(context,
+                                    MaterialPageRoute(builder: (context) {
+                                  return DailyWorkoutScreen(
+                                      dailyWorkout: list[index]);
+                                }));
+                              },
+                              child: Card(
+                                child: ListTile(
+                                  leading: Text(
+                                    (list.length - index).toString(),
+                                    style: kTitleTextStyle,
+                                  ),
+                                  title: Text(
+                                    list[index].title,
+                                    style: kTitleTextStyle,
+                                  ),
+                                  subtitle: Text(
+                                    "${list[index].date.year}년 ${list[index].date.month}월 ${list[index].date.day}일"
+                                        .toString(),
+                                    style: TextStyle(fontSize: 18.0),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                        itemCount: User.currentUser.myWorkoutRecord.length,
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: GridView.count(
-                  childAspectRatio: 11 / 6,
-                  crossAxisCount: 2,
-                  children: _getWorkoutStatistics(),
+                  ],
                 ),
-              )
-            ],
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: GridView.count(
+                    childAspectRatio: 11 / 6,
+                    crossAxisCount: 2,
+                    children: _getWorkoutStatistics(),
+                  ),
+                )
+              ],
+            ),
           ),
         ));
   }
