@@ -278,24 +278,24 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
       onTap: () {
         FocusManager.instance.primaryFocus?.unfocus();
       },
-      child: SafeArea(
-        child: Scaffold(
-          resizeToAvoidBottomInset: false,
-          appBar: AppBar(
-            title: GestureDetector(
-              onTap: () {
-                Navigator.popUntil(context, (route) => route.isFirst);
-              },
-              child: const Hero(
-                tag: 'title',
-                child: Text(
-                  '헬생',
-                  style: kTitleTextStyle,
-                ),
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        appBar: AppBar(
+          title: GestureDetector(
+            onTap: () {
+              Navigator.popUntil(context, (route) => route.isFirst);
+            },
+            child: const Hero(
+              tag: 'title',
+              child: Text(
+                '헬생',
+                style: kTitleTextStyle,
               ),
             ),
           ),
-          body: Column(
+        ),
+        body: SafeArea(
+          child: Column(
             children: [
               Row(
                 children: [
