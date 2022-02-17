@@ -44,11 +44,9 @@ class _LoadingScreenState extends State<LoadingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Container(
-        color: ThemeData.dark().cardColor,
-        child: const Center(child: Text("로딩중입니다...", style: kDefaultTextStyle,)),
-      ),
+    return Container(
+      color: ThemeData.dark().cardColor,
+      child: const Center(child: Text("로딩중입니다...", style: kDefaultTextStyle,)),
     );
   }
 }
