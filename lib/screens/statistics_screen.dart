@@ -21,8 +21,8 @@ class _StatisticsScreenState extends State<StatisticsScreen>
   late TabController _tabController;
 
   List<Tab> tabs = <Tab>[
-    Tab(text: '기록별 통계'),
-    Tab(text: '종목별 통계'),
+    const Tab(text: '기록별 통계'),
+    const Tab(text: '종목별 통계'),
   ];
 
   @override
@@ -59,7 +59,7 @@ class _StatisticsScreenState extends State<StatisticsScreen>
             wrapAlignment: WrapAlignment.start,
           ),
           subtitle: Text('총 ${statistics[key].toString()}회!',
-              style: TextStyle(fontSize: 20.0)),
+              style: const TextStyle(fontSize: 20.0)),
         ),
       ));
     }
@@ -111,14 +111,14 @@ class _StatisticsScreenState extends State<StatisticsScreen>
                                     context: context,
                                     builder: (BuildContext context) {
                                       return AlertDialog(
-                                        title: Text('잠시만요!'),
-                                        content: Text('정말 삭제하시겠어요?'),
+                                        title: const Text('잠시만요!'),
+                                        content: const Text('정말 삭제하시겠어요?'),
                                         actions: [
                                           TextButton(
                                             onPressed: () {
                                               Navigator.pop(context, true);
                                             },
-                                            child: Text(
+                                            child: const Text(
                                               "네!",
                                               style:
                                                   TextStyle(color: Colors.white),
@@ -128,7 +128,7 @@ class _StatisticsScreenState extends State<StatisticsScreen>
                                             onPressed: () {
                                               Navigator.pop(context, false);
                                             },
-                                            child: Text(
+                                            child: const Text(
                                               "아니요!",
                                               style:
                                                   TextStyle(color: Colors.white),
@@ -144,7 +144,7 @@ class _StatisticsScreenState extends State<StatisticsScreen>
                                       context: context,
                                       builder: (context) {
                                         return AlertDialog(
-                                          title: Text("제목을 수정할 수 있습니다."),
+                                          title: const Text("제목을 수정할 수 있습니다."),
                                           content: TextField(
                                             autofocus: true,
                                             onSubmitted: (value) {
@@ -152,7 +152,7 @@ class _StatisticsScreenState extends State<StatisticsScreen>
                                                 showDialog(
                                                     context: context,
                                                     builder: (context) {
-                                                      return AlertDialog(
+                                                      return const AlertDialog(
                                                         title: Text('잠시만요!'),
                                                         content: Text(
                                                             '제목은 비워둘 수 없습니다!'),
@@ -182,13 +182,11 @@ class _StatisticsScreenState extends State<StatisticsScreen>
                                 height: double.infinity,
                                 color: Colors.redAccent,
                                 child: Row(
-                                  children: [
+                                  children: const [
                                     Padding(
-                                      padding: const EdgeInsets.symmetric(
+                                      padding: EdgeInsets.symmetric(
                                           horizontal: 20.0),
-                                      child: Container(
-                                        child: Icon(FontAwesomeIcons.trash),
-                                      ),
+                                      child: Icon(FontAwesomeIcons.trash),
                                     ),
                                   ],
                                 ),
@@ -200,13 +198,11 @@ class _StatisticsScreenState extends State<StatisticsScreen>
                                 height: double.infinity,
                                 color: Colors.grey,
                                 child: Row(
-                                  children: [
+                                  children: const [
                                     Padding(
-                                      padding: const EdgeInsets.symmetric(
+                                      padding: EdgeInsets.symmetric(
                                           horizontal: 20.0),
-                                      child: Container(
-                                        child: Icon(FontAwesomeIcons.pencilAlt),
-                                      ),
+                                      child: Icon(FontAwesomeIcons.pencilAlt),
                                     ),
                                   ],
                                   mainAxisAlignment: MainAxisAlignment.end,
@@ -243,7 +239,7 @@ class _StatisticsScreenState extends State<StatisticsScreen>
                                   subtitle: Text(
                                     "${list[index].date.year}년 ${list[index].date.month}월 ${list[index].date.day}일"
                                         .toString(),
-                                    style: TextStyle(fontSize: 18.0),
+                                    style: const TextStyle(fontSize: 18.0),
                                   ),
                                 ),
                               ),

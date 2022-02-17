@@ -2,7 +2,6 @@ import 'package:fitlife/classes/daily_workout.dart';
 import 'package:fitlife/classes/workout.dart';
 import 'package:fitlife/data/constatns.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:word_break_text/word_break_text.dart';
 
 class DailyWorkoutScreen extends StatefulWidget {
@@ -38,7 +37,7 @@ class _DailyWorkoutScreenState extends State<DailyWorkoutScreen> {
                 ),
                 subtitle: WordBreakText(
                   repsList.join("회, ") + "회",
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 20.0,
                   ),
                   wrapAlignment: WrapAlignment.start,
@@ -56,7 +55,7 @@ class _DailyWorkoutScreenState extends State<DailyWorkoutScreen> {
               ),
               subtitle: WordBreakText(
                 repsList.join("회, ") + "회",
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 20.0,
                 ),
                 wrapAlignment: WrapAlignment.start,
@@ -165,7 +164,7 @@ class _DailyWorkoutScreenState extends State<DailyWorkoutScreen> {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 80.0,
             )
           ],

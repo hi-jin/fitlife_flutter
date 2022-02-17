@@ -2,7 +2,6 @@ import 'package:easy_autocomplete/easy_autocomplete.dart';
 import 'package:fitlife/classes/daily_workout.dart';
 import 'package:fitlife/classes/user.dart';
 import 'package:fitlife/classes/workout.dart';
-import 'package:fitlife/components/icon_text_button.dart';
 import 'package:fitlife/components/timer_widget.dart';
 import 'package:fitlife/components/workout_view.dart';
 import 'package:fitlife/data/constatns.dart';
@@ -27,7 +26,6 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
       .getKindsOfWorkoutList(); // User에 저장된 정보, 지금까지 추가한 운동종목들을 불러온다.
   TextEditingController? _textController; // 운동종목 입력 TextField에 연결된 controller
   TextEditingController? _weightController;
-  bool _isTextFieldClicked = false;
 
   late TimerWidget timer0; // 총 운동시간이 기록된 timer widget
   late TimerWidget timer1; // 휴식시간이 기록된 timer widget
@@ -71,7 +69,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: Text('오늘 운동의 주제를 입력해주세요!'),
+            title: const Text('오늘 운동의 주제를 입력해주세요!'),
             content: TextField(
               onSubmitted: (value) {
                 if (value == "") {
@@ -79,7 +77,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                 }
                 Navigator.pop(context, value);
               },
-              decoration: InputDecoration(hintText: "하체 Day, 가슴 Day, ..."),
+              decoration: const InputDecoration(hintText: "하체 Day, 가슴 Day, ..."),
             ),
           );
         },
@@ -108,16 +106,16 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
           context: context,
           builder: (context) {
             return AlertDialog(
-              title: Text(
+              title: const Text(
                 '잠시만요!',
               ),
-              content: Text('운동 종목을 먼저 입력해주세요!'),
+              content: const Text('운동 종목을 먼저 입력해주세요!'),
               actions: [
                 TextButton(
                     onPressed: () {
                       Navigator.pop(context);
                     },
-                    child: Text(
+                    child: const Text(
                       "네!",
                       style: TextStyle(color: Colors.white),
                     ))
@@ -198,8 +196,8 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                             context: context,
                             builder: (context) {
                               return AlertDialog(
-                                title: Text('잠시만요!'),
-                                content: Text('숫자만 입력해주세요!'),
+                                title: const Text('잠시만요!'),
+                                content: const Text('숫자만 입력해주세요!'),
                                 actions: [
                                   TextButton(
                                     onPressed: () {
@@ -208,7 +206,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                                       });
                                       Navigator.pop(context);
                                     },
-                                    child: Text('네!'),
+                                    child: const Text('네!'),
                                   ),
                                 ],
                               );
@@ -232,8 +230,8 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                               context: context,
                               builder: (context) {
                                 return AlertDialog(
-                                  title: Text('잠시만요!'),
-                                  content: Text('숫자만 입력해주세요!'),
+                                  title: const Text('잠시만요!'),
+                                  content: const Text('숫자만 입력해주세요!'),
                                   actions: [
                                     TextButton(
                                       onPressed: () {
@@ -242,7 +240,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                                         });
                                         Navigator.pop(context);
                                       },
-                                      child: Text('네!'),
+                                      child: const Text('네!'),
                                     ),
                                   ],
                                 );
@@ -252,7 +250,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                         }
                       }
                     },
-                    child: Icon(CupertinoIcons.arrow_turn_down_left)),
+                    child: const Icon(CupertinoIcons.arrow_turn_down_left)),
               ],
             ),
           );
@@ -304,7 +302,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                   child: Column(
                     children: [
                       Container(
-                        margin: EdgeInsets.all(15.0),
+                        margin: const EdgeInsets.all(15.0),
                         width: double.infinity,
                         color: ThemeData.dark().cardColor,
                         child: Column(
@@ -324,89 +322,85 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        Container(
-                          child: EasyAutocomplete(
-                            controller: _textController,
+                        EasyAutocomplete(
+                          controller: _textController,
+                          decoration: InputDecoration(
+                            hintText: "벤치프레스, ...",
+                            border: const OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white),
+                            ),
+                            focusedBorder: const OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white),
+                            ),
+                            labelText: '운동 종목 입력',
+                            labelStyle:
+                                kDefaultTextStyle.copyWith(fontSize: 20.0),
+                          ),
+                          suggestions: _strWorkoutList.toList(),
+                          onSubmitted: (value) {
+                            if (value == "") return;
+                            if (!_strWorkoutList.contains(value)) {
+                              showDialog(
+                                  barrierDismissible: false,
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      title: const Text("잠시만요!"),
+                                      content:
+                                          const Text('처음 보는 운동 종목이에요!\n추가하시겠어요?'),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              User.currentUser.kindsOfWorkout
+                                                  .add(value);
+                                            });
+                                            Navigator.pop(context);
+                                          },
+                                          child: const Text('네!',
+                                              style: TextStyle(
+                                                  color: Colors.white)),
+                                        ),
+                                        TextButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              _textController!.text = "";
+                                            });
+                                            Navigator.pop(context);
+                                          },
+                                          child: const Text('아니요!',
+                                              style: TextStyle(
+                                                  color: Colors.white)),
+                                        ),
+                                      ],
+                                    );
+                                  });
+                            }
+                          },
+                        ), // 운동 종목 입력 TextField
+                        const SizedBox(height: 20.0),
+                        Focus(
+                          child: TextField(
+                            keyboardType: TextInputType.number,
+                            controller: _weightController,
                             decoration: InputDecoration(
-                              hintText: "벤치프레스, ...",
+                              hintText: "생략 가능해요!",
                               border: const OutlineInputBorder(
                                 borderSide: BorderSide(color: Colors.white),
                               ),
                               focusedBorder: const OutlineInputBorder(
                                 borderSide: BorderSide(color: Colors.white),
                               ),
-                              labelText: '운동 종목 입력',
+                              labelText: '무게 입력 (kg)',
                               labelStyle:
                                   kDefaultTextStyle.copyWith(fontSize: 20.0),
                             ),
-                            suggestions: _strWorkoutList.toList(),
                             onSubmitted: (value) {
                               if (value == "") return;
-                              if (!_strWorkoutList.contains(value)) {
-                                showDialog(
-                                    barrierDismissible: false,
-                                    context: context,
-                                    builder: (context) {
-                                      return AlertDialog(
-                                        title: Text("잠시만요!"),
-                                        content:
-                                            Text('처음 보는 운동 종목이에요!\n추가하시겠어요?'),
-                                        actions: [
-                                          TextButton(
-                                            onPressed: () {
-                                              setState(() {
-                                                User.currentUser.kindsOfWorkout
-                                                    .add(value);
-                                              });
-                                              Navigator.pop(context);
-                                            },
-                                            child: Text('네!',
-                                                style: TextStyle(
-                                                    color: Colors.white)),
-                                          ),
-                                          TextButton(
-                                            onPressed: () {
-                                              setState(() {
-                                                _textController!.text = "";
-                                              });
-                                              Navigator.pop(context);
-                                            },
-                                            child: Text('아니요!',
-                                                style: TextStyle(
-                                                    color: Colors.white)),
-                                          ),
-                                        ],
-                                      );
-                                    });
-                              }
                             },
                           ),
                         ), // 운동 종목 입력 TextField
-                        SizedBox(height: 20.0),
-                        Container(
-                          child: Focus(
-                            child: TextField(
-                              keyboardType: TextInputType.number,
-                              controller: _weightController,
-                              decoration: InputDecoration(
-                                hintText: "생략 가능해요!",
-                                border: const OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.white),
-                                ),
-                                focusedBorder: const OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.white),
-                                ),
-                                labelText: '무게 입력 (kg)',
-                                labelStyle:
-                                    kDefaultTextStyle.copyWith(fontSize: 20.0),
-                              ),
-                              onSubmitted: (value) {
-                                if (value == "") return;
-                              },
-                            ),
-                          ),
-                        ), // 운동 종목 입력 TextField
-                        SizedBox(height: 20.0),
+                        const SizedBox(height: 20.0),
                         Container(
                           decoration: BoxDecoration(
                             color: Colors.deepPurpleAccent,
@@ -465,11 +459,11 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                                       : DailyWorkout())));
                     },
                     child: Container(
-                      padding: EdgeInsets.all(5.0),
+                      padding: const EdgeInsets.all(5.0),
                       decoration: BoxDecoration(
                           color: ThemeData.dark().cardColor,
                           border: Border.all(color: Colors.white)),
-                      child: Center(
+                      child: const Center(
                         child: Text(
                           '최근 운동 기록',
                           style: kDefaultTextStyle,
@@ -484,7 +478,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                       User.currentUser.isStarted ? _stop() : _start();
                     },
                     child: Container(
-                      padding: EdgeInsets.all(5.0),
+                      padding: const EdgeInsets.all(5.0),
                       decoration: BoxDecoration(
                           color: Colors.redAccent,
                           border: Border.all(color: Colors.white)),

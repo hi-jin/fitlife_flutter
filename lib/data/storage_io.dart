@@ -10,10 +10,8 @@ class Storage {
     try {
       Directory directory = await getApplicationDocumentsDirectory();
       String path = directory.path;
-      print(await File('$path/$fileName').readAsString());
       return File('$path/$fileName').readAsString();
     } catch (e) {
-      print(e);
       return "";
     }
   }
@@ -24,7 +22,7 @@ class Storage {
       String path = directory.path;
       File('$path/$fileName').writeAsString(data);
     } catch (e) {
-      print(e);
+      return;
     }
   }
 }

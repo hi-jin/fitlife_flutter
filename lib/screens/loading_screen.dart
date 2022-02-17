@@ -36,7 +36,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
   void initState() {
     super.initState();
     init().then((val) {
-      Future.delayed(Duration(seconds: 1), () {
+      Future.delayed(const Duration(seconds: 1), () {
         Navigator.popAndPushNamed(context, FitLifeMain.id);
       });
     });
@@ -47,7 +47,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
     return SafeArea(
       child: Container(
         color: ThemeData.dark().cardColor,
-        child: Center(child: Text("로딩중입니다...", style: kDefaultTextStyle,)),
+        child: const Center(child: Text("로딩중입니다...", style: kDefaultTextStyle,)),
       ),
     );
   }

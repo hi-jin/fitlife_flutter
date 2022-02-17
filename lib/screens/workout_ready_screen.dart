@@ -4,7 +4,6 @@ import 'package:fitlife/data/alarm_type.dart';
 import 'package:fitlife/screens/workout_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:word_break_text/word_break_text.dart';
 
 class WorkoutReadyScreen extends StatefulWidget {
   static String id = 'workoutReadyScreen';
@@ -52,55 +51,53 @@ class _WorkoutReadyScreenState extends State<WorkoutReadyScreen> {
               endIndent: 10.0,
             ),
             Expanded(
-              child: Container(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          // 알람 종류 변경
-                          setState(() {
-                            if (currentTimerIndex == 0) {
-                              currentTimerIndex = alarmType.length - 1;
-                            } else {
-                              currentTimerIndex -= 1;
-                            }
-                          });
-                        },
-                        child: const Icon(FontAwesomeIcons.arrowLeft),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        // 알람 종류 변경
+                        setState(() {
+                          if (currentTimerIndex == 0) {
+                            currentTimerIndex = alarmType.length - 1;
+                          } else {
+                            currentTimerIndex -= 1;
+                          }
+                        });
+                      },
+                      child: const Icon(FontAwesomeIcons.arrowLeft),
+                    ),
+                    Expanded(
+                      child: Column(
+                        children: [
+                          Text(
+                            alarmType[currentTimerIndex]["title"],
+                            style: kDefaultTextStyle,
+                          ),
+                          const SizedBox(height: 10.0),
+                          Icon(
+                            alarmType[currentTimerIndex]["iconData"],
+                            size: MediaQuery.of(context).size.width * 0.3,
+                          ),
+                        ],
                       ),
-                      Expanded(
-                        child: Column(
-                          children: [
-                            Text(
-                              alarmType[currentTimerIndex]["title"],
-                              style: kDefaultTextStyle,
-                            ),
-                            const SizedBox(height: 10.0),
-                            Icon(
-                              alarmType[currentTimerIndex]["iconData"],
-                              size: MediaQuery.of(context).size.width * 0.3,
-                            ),
-                          ],
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          // 알람 종류 변경
-                          setState(() {
-                            if (currentTimerIndex >= alarmType.length - 1) {
-                              currentTimerIndex = 0;
-                            } else {
-                              currentTimerIndex += 1;
-                            }
-                          });
-                        },
-                        child: const Icon(FontAwesomeIcons.arrowRight),
-                      ),
-                    ],
-                  ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        // 알람 종류 변경
+                        setState(() {
+                          if (currentTimerIndex >= alarmType.length - 1) {
+                            currentTimerIndex = 0;
+                          } else {
+                            currentTimerIndex += 1;
+                          }
+                        });
+                      },
+                      child: const Icon(FontAwesomeIcons.arrowRight),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -158,7 +155,7 @@ class _WorkoutReadyScreenState extends State<WorkoutReadyScreen> {
                         showDialog(
                             context: context,
                             builder: (context) {
-                              return AlertDialog(
+                              return const AlertDialog(
                                 title: Text("잠시만요!"),
                                 content: Text(
                                   "아직 개발중인 기능입니다 ㅠㅠ\n빠른 시일 내에 추가 예정입니다.",
