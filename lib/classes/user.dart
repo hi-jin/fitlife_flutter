@@ -39,6 +39,7 @@ class User {
     dailyWorkout = DailyWorkout();
     currentWorkout = null;
     isStarted = false;
+    isSetStarted = false;
     isChanged = true;
   }
 
