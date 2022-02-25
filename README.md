@@ -5,7 +5,7 @@ Thanks.
 
 ## 헬생이란?
 웨이트 트레이닝 혹은 맨몸운동을 할 때, 세트 수와 휴식시간을 기록할 수 있도록 돕는 앱입니다!
-Angela Yu님의 The 2021 complete web developer bootcamp 강좌로 배운 내용을 복습하며 만들었습니다.
+Angela Yu님의 Flutter bootcamp 강좌로 배운 내용을 복습하며 만들었습니다.
 
 ## 개발하게 된 이유는..
 평소에 운동을 즐겨해서 instagram에 운동 일지를 자주 게시했습니다.
