@@ -37,8 +37,6 @@ dependencies:
   font_awesome_flutter: ^9.2.0
   easy_autocomplete: ^1.5.0
   path_provider: ^2.0.9
-  screenshot: ^1.2.3
-  image_gallery_saver: ^1.7.1
   word_break_text: any
 
 dev_dependencies:

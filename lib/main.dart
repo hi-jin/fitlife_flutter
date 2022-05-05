@@ -1,7 +1,3 @@
-import 'dart:async';
-import 'package:fitlife/classes/user.dart';
-import 'package:fitlife/data/storage_io.dart';
-import 'package:fitlife/screens/daily_workout_screen.dart';
 import 'package:fitlife/screens/loading_screen.dart';
 import 'package:fitlife/screens/statistics_screen.dart';
 import 'package:fitlife/screens/workout_ready_screen.dart';
